@@ -28,7 +28,7 @@
             try {
                 stream = await navigator.mediaDevices.getUserMedia({
                     audio: false,
-                    video: true
+                    video: { facingMode: { ideal: "environment" } }
                 })
                 document.querySelector('video').srcObject = stream;
 
