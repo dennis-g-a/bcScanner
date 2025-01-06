@@ -7,7 +7,8 @@
 </head>
 <body>
     <div>
-        <video muted autoplay style="height: 300px; background: #000;"></video>
+        <video mute autoplay hidden></video>
+        <canvas></canvas>
     </div>
     <div>
         <button id="get-access">Start Camera</button>
@@ -23,14 +24,18 @@
     <script>
         let stream = null;
         let bcAnimate = null;
+        let sWidth = 500
+        let sHeight = 500
+
 
         document.querySelector('#get-access').addEventListener('click', async (e)=>{
             try {
                 stream = await navigator.mediaDevices.getUserMedia({
                     audio: false,
-                    video: { facingMode: 'environment'}
+                    video: { facingMode: "environment", width: sWidth, height: sHeight }
                 })
-                document.querySelector('video').srcObject = stream;
+                let video = document.querySelector('video');
+                video.srcObject = stream;
 
                 window['BarcodeDetector'] = barcodeDetectorPolyfill.BarcodeDetectorPolyfill
 
@@ -38,7 +43,15 @@
 
                 const detector = new BarcodeDetector({formats: getFormats })
 
+                let canvas = document.querySelector('canvas');
+                
+                canvas.width = sWidth;
+                canvas.height = sHeight;
+                let ctx = canvas.getContext('2d');
+
                 async function bcLoop(){
+                    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
                     const barcodes = await detector.detect(document.querySelector('video'));
                     if(barcodes.length){
                         document.querySelector('#bcData').textContent = barcodes[0].rawValue;
