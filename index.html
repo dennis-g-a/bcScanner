@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <video autoplay style="height: 300px; background: #000;"></video>
+    </div>
+    <div>
+        <button id="get-access">Start Camera</button>
+        <button id="stop-access">Stop Camera</button>
+    </div>
+    <div>
+        <span>Barcode data: </span><span id="bcData"></span>
+    </div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.15/dist/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@undecaf/barcode-detector-polyfill@0.9.21/dist/index.js"></script>
+    <script>
+        let stream = null;
+        let bcAnimate = null;
+
+        document.querySelector('#get-access').addEventListener('click', async (e)=>{
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    audio: false,
+                    video: true
+                })
+                document.querySelector('video').srcObject = stream;
+
+                window['BarcodeDetector'] = barcodeDetectorPolyfill.BarcodeDetectorPolyfill
+
+                const getFormats = await BarcodeDetector.getSupportedFormats();
+
+                const detector = new BarcodeDetector({formats: getFormats })
+
+                async function bcLoop(){
+                    const barcodes = await detector.detect(document.querySelector('video'));
+                    if(barcodes.length){
+                        document.querySelector('#bcData').textContent = barcodes[0].rawValue;
+                    }
+                    bcAnimate = requestAnimationFrame(bcLoop);
+                }
+                
+                bcAnimate = requestAnimationFrame(bcLoop)
+                
+
+            }
+            catch(err){
+                console.log(err);
+            }
+        });
+
+        document.querySelector('#stop-access').addEventListener('click', async (e)=>{
+            if(stream && bcAnimate){
+                stream.getTracks().forEach((track)=>{
+                    if (track.readyState == 'live') {
+                        track.stop();
+                    }
+                })
+                cancelAnimationFrame(bcAnimate);
+            }
+        })
+    </script>
+</body>
+</html>
