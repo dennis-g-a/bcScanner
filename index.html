@@ -47,9 +47,8 @@
             devices.map((d)=>{
                 if(!('focusMode' in d.capabilities))
                     alert('This camera does not have focusMode');
-                else
-                    if(!('focusDistance' in d.capabilities))
-                        alert('This camera does not have focusDistance');
+                if(!('focusDistance' in d.capabilities))
+                    alert('This camera does not have focusDistance');
 
             })
         })()
