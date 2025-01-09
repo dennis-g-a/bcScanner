@@ -46,9 +46,9 @@
             const devices = await getVideoInputs();
             devices.map((d)=>{
                 if(!('focusMode' in d.capabilities))
-                    alert('This camera does not have focusMode');
+                    alert(`This ${d.device.label} does not have focusMode`);
                 if(!('focusDistance' in d.capabilities))
-                    alert('This camera does not have focusDistance');
+                    alert(`This ${d.device.label} does not have focusDistance`);
 
             })
         })()
