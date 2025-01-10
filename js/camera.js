@@ -33,7 +33,6 @@ async function getDevices(){
 
 async function getStream(constraint = null){
     const constraints = constraint ? constraint : {video: true, audio: false}
-    console.log(constraints);
     return await navigator.mediaDevices.getUserMedia(constraints);
 }
 

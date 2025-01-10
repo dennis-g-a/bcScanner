@@ -61,7 +61,7 @@
             const video = document.querySelector("video");
 
             await requestCamera();
-            const stream = await getStream();
+            let stream = await getStream();
             const track = stream.getVideoTracks()[0];
             const devices = await getDevices();
             const capabilities = getStreamCapabilities(stream);
@@ -105,14 +105,15 @@
 
             camera.addEventListener("change", async (ev)=>{
                 endStream(stream);
-                const streamNew = await getStream(
+                stream = await getStream(
                     {
                         video: {
                             deviceId: ev.target.value,
                         }, audio: false
                     }
                 );
-                video.srcObject = streamNew;
+                video.srcObject = stream;
+                video.title = ev.target.value;
 
             });
                
