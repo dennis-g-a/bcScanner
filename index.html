@@ -70,7 +70,7 @@
             let stream = await getStream();
             let track = stream.getVideoTracks()[0];
             let capabilities = getStreamCapabilities(stream);
-            
+
             video.srcObject = stream;
 
 
@@ -93,7 +93,6 @@
                     }
                 );
                 video.srcObject = stream;
-                video.title = ev.target.value;
 
                 track = stream.getVideoTracks()[0];
                 capabilities = getStreamCapabilities(stream);
