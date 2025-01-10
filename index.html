@@ -61,6 +61,7 @@
 
             await requestCamera();
             const stream = await getStream();
+            const track = stream.getVideoTracks()[0];
             const devices = await getDevices();
             const capabilities = getStreamCapabilities(stream);
 
@@ -72,8 +73,7 @@
 
             for (const i of [1.0, 0.75, 0.50]){
                 const streamWidth = capabilities.width.max;
-                const streamHeight = capabilities.height.max
-                const aspectRatio =  streamWidth / streamHeight;
+                const aspectRatio =  track.getSettings().aspectRatio;
 
                 const label = `${Math.floor(streamWidth * i)}X${Math.floor((streamWidth * i) / aspectRatio)}`;
 
@@ -97,7 +97,7 @@
                 focus.min = capabilities.focusDistance.min;
                 focus.max = capabilities.focusDistance.max;
                 focus.step = capabilities.focusDistance.step;
-                focus.value = stream.getSettings().focusDistance;
+                focus.value = track.getSettings().focusDistance;
             }
 
             
