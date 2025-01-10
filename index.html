@@ -72,11 +72,6 @@
             let capabilities = getStreamCapabilities(stream);
 
             video.srcObject = stream;
-
-
-            
-
-            console.log(capabilities)
             
             setResolution(capabilities, track, resolution);
             setFocusMode(capabilities, mode);
@@ -84,23 +79,24 @@
             
 
             camera.addEventListener("change", async (ev)=>{
-                endStream(stream);
-                stream = await getStream(
-                    {
-                        video: {
-                            deviceId: ev.target.value,
-                        }, audio: false
-                    }
-                );
-                video.srcObject = stream;
-
-                track = stream.getVideoTracks()[0];
-                capabilities = getStreamCapabilities(stream);
                 
-                setResolution(capabilities, track, resolution);
-                setFocusMode(capabilities, mode);
-                setFocusDistance(capabilities, focus);
+                endStream(stream);
+                navigator.mediaDevices.getUserMedia({
+                    video: {
+                            deviceId: ev.target.value,
+                    }, audio: false
+                })
+                .then(newStream=>{
+                    video.srcObject = newStream;
 
+                    track = newStream.getVideoTracks()[0];
+                    capabilities = getStreamCapabilities(newStream);
+                    
+                    setResolution(capabilities, track, resolution);
+                    setFocusMode(capabilities, mode);
+                    setFocusDistance(capabilities, focus);
+                    stream = newStream;
+                })
             });
                
         })()
