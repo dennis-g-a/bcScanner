@@ -69,7 +69,7 @@ function setFocusMode(capabilities, element){
     }
 }
 
-function setFocusDistance(capabilities, element){
+function setFocusDistance(capabilities, track, element){
     element.innerHTML = '';
     
     if(!('focusDistance' in capabilities)){

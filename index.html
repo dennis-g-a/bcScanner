@@ -75,7 +75,7 @@
             
             setResolution(capabilities, track, resolution);
             setFocusMode(capabilities, mode);
-            setFocusDistance(capabilities, focus);
+            setFocusDistance(capabilities, track, focus);
             
 
             camera.addEventListener("change", async (ev)=>{
@@ -94,7 +94,7 @@
                     
                     setResolution(capabilities, track, resolution);
                     setFocusMode(capabilities, mode);
-                    setFocusDistance(capabilities, focus);
+                    setFocusDistance(capabilities, track, focus);
                     stream = newStream;
                 })
             });
