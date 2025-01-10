@@ -95,6 +95,9 @@
                 focus.disabled = true;
             }else{
                 alert(track.getSettings().focusDistance);
+                alert(capabilities.focusDistance.min);
+                alert(capabilities.focusDistance.max);
+                alert(capabilities.focusDistance.step);
                 focus.min = capabilities.focusDistance.min;
                 focus.max = capabilities.focusDistance.max;
                 focus.step = capabilities.focusDistance.step;
