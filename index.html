@@ -11,22 +11,33 @@
     <title>Barcode Scanner Trial</title>
   </head>
   <body>
-    <main>
+    <main class="mt-5">
         <div class="container">
-            <video autoplay></video>
-            <div class="row">
-                <div class="col">
+            <div class="row row-cols-2 w-50 mx-auto text-center">
+                <div class="col mb-2">
+                    <label for="camera">Camera:</label>
                     <select id="camera"></select>
                 </div>
-                <div class="col">
+                <div class="col mb-2">
+                    <label for="resolution">Stream Resolution:</label>
                     <select id="resolution"></select>
                 </div>
-                <div class="col">
-                    <select id="mode"></select>
+                <div class="col mb-2">
+                    <label for="mode">Focus Mode:</label>
+                    <select id="mode">
+                    </select>
                 </div>
-                <div class="col">
+                <div class="col mb-2">
+                    <label for="focus">Focus Distance:</label>
                     <input id="focus" type="range" min="1" max="5" step="1" value="1"></select>
                 </div>
+            </div>
+            <div class="text-center w-50 mx-auto">
+                <video autoplay class="w-100"></video>
+            </div>
+            <div class="text-center">
+                <h5>Scanned Data:</h5>
+                <h2 id="data"></h2>
             </div>
         </div>
     </main>
@@ -43,16 +54,52 @@
 
     <script>
         (async()=>{
-            const stream = await requestCamera();
-            const video = document.querySelector("video");
-            video.srcObject = stream;
+            const camera = document.querySelector("#camera");
+            const resolution = document.querySelector("#resolution");
+            const mode = document.querySelector("#mode");
+            const focus = document.querySelector("#focus");
 
-            const videoTracks = video.srcObject.getVideoTracks();
-            const capabilities = videoTracks[0].getCapabilities();
+            await requestCamera();
+            const stream = await getStream();
+            const devices = await getDevices();
+            const capabilities = getStreamCapabilities(stream);
 
-            for (const c in capabilities){
-                alert(`${c}: ${capabilities[c]}`);
+            console.log(capabilities)
+            
+            devices.map(device=>{
+                camera.appendChild(new Option(device.label, device.deviceId));
+            })
+
+            for (const i of [1.0, 0.75, 0.50]){
+                const streamWidth = capabilities.width.max;
+                const streamHeight = capabilities.height.max
+                const aspectRatio =  streamWidth / streamHeight;
+
+                const label = `${Math.floor(streamWidth * i)}X${Math.floor((streamWidth * i) / aspectRatio)}`;
+
+                resolution.appendChild(new Option(label,label));
             }
+
+            if(!('focusMode' in capabilities)){
+                console.log('focusMode not available');
+                mode.appendChild(new Option("None"))
+                mode.disabled = true;
+            }else{
+                capabilities.focusMode.map(i=>{
+                    mode.appendChild(new Option(i,i));
+                })
+            }
+
+            if(!('focusDistance' in capabilities)){
+                console.log('focusDistance not available');
+                focus.disabled = true;
+            }else{
+                focus.min = capabilities.focusDistance.min;
+                focus.max = capabilities.focusDistance.max;
+                focus.step = capabilities.focusDistance.step;
+                focus.value = stream.getSettings().focusDistance;
+            }
+
             
         })()
     </script>

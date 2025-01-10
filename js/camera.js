@@ -1,11 +1,3 @@
-const supported = navigator.mediaDevices.getSupportedConstraints();
-
-
-async function requestCamera(constraints = null){
-    const Constraints = constraints ? constraints : {video: true, audio: false}
-    return await navigator.mediaDevices.getUserMedia(Constraints);
-}
-
 
 function endStream(stream){
     if(stream){
@@ -16,28 +8,37 @@ function endStream(stream){
     }
 }
 
+function requestCamera(){
+    navigator.mediaDevices.getUserMedia({video: true, audio: false})
+    .then(stream=>{
+        endStream(stream);
+    })
+    .catch(err=>{
+        throw new Error(err.message);
+    })
+}
 
-async function getVideoInputs(){
-    let vidList = [];
-    const stream = await requestCamera();
+async function getDevices(){
     const devices = await navigator.mediaDevices.enumerateDevices();
 
-    if(devices){
-        devices.map((device)=>{
-            if(device.kind === "videoinput"){
-                let obj = {
-                    device: device,
-                    capabilities: device.getCapabilities()
-                }
-                vidList.push(obj);
-            }
-        });
-    }else{
-        throw new Error(err.message);
-    }
-    
-    endStream(stream);
-    return vidList;
+    let deviceList = []
+    devices.map(device=>{
+        if(device.kind === "videoinput"){
+            deviceList.push(device);
+        }
+    });
+
+    return deviceList;
+}
+
+async function getStream(constraint = null){
+    const constraints = constraint ? constraint : {video: true, audio: false}
+    return await navigator.mediaDevices.getUserMedia(constraints);
+}
+
+function getStreamCapabilities(stream){
+    const tracks = stream.getTracks()
+    return tracks[0].getCapabilities();
 }
 
 
