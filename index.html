@@ -105,7 +105,13 @@
 
             camera.addEventListener("change", async (ev)=>{
                 endStream(stream);
-                const streamNew = await getStream({video: ev.target.value, audio: false});
+                const streamNew = await getStream(
+                    {
+                        video: {
+                            deviceId: ev.target.value,
+                        }, audio: false
+                    }
+                );
                 video.srcObject = streamNew;
 
             });
