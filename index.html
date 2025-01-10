@@ -61,47 +61,27 @@
             const video = document.querySelector("video");
 
             await requestCamera();
-            let stream = await getStream();
-            const track = stream.getVideoTracks()[0];
-            const devices = await getDevices();
-            const capabilities = getStreamCapabilities(stream);
 
-            console.log(capabilities)
-            
+            const devices = await getDevices();
             devices.map(device=>{
                 camera.appendChild(new Option(device.label, device.deviceId));
             })
 
-            for (const i of [1.0, 0.75, 0.50]){
-                const streamWidth = capabilities.width.max;
-                const aspectRatio =  track.getSettings().aspectRatio;
-
-                const label = `${Math.floor(streamWidth * i)}X${Math.floor((streamWidth * i) / aspectRatio)}`;
-
-                resolution.appendChild(new Option(label,label));
-            }
-
-            if(!('focusMode' in capabilities)){
-                console.log('focusMode not available');
-                mode.appendChild(new Option("None"))
-                mode.disabled = true;
-            }else{
-                capabilities.focusMode.map(i=>{
-                    mode.appendChild(new Option(i,i));
-                })
-            }
-
-            if(!('focusDistance' in capabilities)){
-                console.log('focusDistance not available');
-                focus.disabled = true;
-            }else{
-                focus.min = capabilities.focusDistance.min;
-                focus.max = capabilities.focusDistance.max;
-                focus.step = capabilities.focusDistance.step;
-                focus.value = track.getSettings().focusDistance;
-            }
-
+            let stream = await getStream();
+            let track = stream.getVideoTracks()[0];
+            let capabilities = getStreamCapabilities(stream);
+            
             video.srcObject = stream;
+
+
+            
+
+            console.log(capabilities)
+            
+            setResolution(capabilities, track, resolution);
+            setFocusMode(capabilities, mode);
+            setFocusDistance(capabilities, focus);
+            
 
             camera.addEventListener("change", async (ev)=>{
                 endStream(stream);
@@ -114,6 +94,13 @@
                 );
                 video.srcObject = stream;
                 video.title = ev.target.value;
+
+                track = stream.getVideoTracks()[0];
+                capabilities = getStreamCapabilities(stream);
+                
+                setResolution(capabilities, track, resolution);
+                setFocusMode(capabilities, mode);
+                setFocusDistance(capabilities, focus);
 
             });
                
