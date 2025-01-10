@@ -58,6 +58,7 @@
             const resolution = document.querySelector("#resolution");
             const mode = document.querySelector("#mode");
             const focus = document.querySelector("#focus");
+            const video = document.querySelector("video");
 
             await requestCamera();
             const stream = await getStream();
@@ -100,7 +101,15 @@
                 focus.value = track.getSettings().focusDistance;
             }
 
-            
+            video.srcObject = stream;
+
+            camera.addEventListener("change", async (ev)=>{
+                endStream(stream);
+                const streamNew = await getStream({video: ev.target.value, audio: false});
+                video.srcObject = streamNew;
+
+            });
+               
         })()
     </script>
   </body>
