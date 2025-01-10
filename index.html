@@ -99,6 +99,9 @@
                 })
             });
                
+            mode.addEventListener("changed", (ev)=>{
+                track.applyConstraints({focusMode: ev.target.value});
+            })
         })()
     </script>
   </body>
