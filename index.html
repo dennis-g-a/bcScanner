@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="text-center w-50 mx-auto">
-                <video autoplay class="w-100"></video>
+                <video autoplay hidden class="w-100"></video>
                 <canvas class="w-100"></canvas>
             </div>
             <div class="text-center">
@@ -56,29 +56,28 @@
 
     <script>
         (async()=>{
-            // const video = document.querySelector("video");
-            // const canvas = document.querySelector("canvas");
-            // const ctx = canvas.getContext("2d");
-            // ctx.imageSmoothingEnabled = true
-            // let canvasWidth, canvasHeight, animateLoop;
+            const video = document.querySelector("video");
+            const canvas = document.querySelector("canvas");
+            const ctx = canvas.getContext("2d");
+            let canvasWidth, canvasHeight, animateLoop;
 
-            // video.addEventListener("play", (ev)=>{
-            //     canvas.width = video.videoWidth;
-            //     canvas.height = video.videoHeight;
-            // })
+            video.addEventListener("play", (ev)=>{
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+            })
 
-            // async function playBack(){
+            async function playBack(){
                 
-            //     let scaleFactor = Math.min(canvas.width/video.videoWidth, canvas.height/video.videoHeight);
-            //     if(canvas.width !== video.videoWidth || canvas.height !== video.videoHeight){
-            //         canvas.width = video.videoWidth;
-            //         canvas.height = video.videoHeight;
-            //     }
+                let scaleFactor = Math.min(canvas.width/video.videoWidth, canvas.height/video.videoHeight);
+                if(canvas.width !== video.videoWidth || canvas.height !== video.videoHeight){
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                }
 
-            //     ctx.drawImage(video, 0, 0, video.videoWidth * scaleFactor, video.videoHeight * scaleFactor);
-            //     animateLoop = requestAnimationFrame(playBack);
-            // }
-            // animateLoop = requestAnimationFrame(playBack);
+                ctx.drawImage(video, 0, 0, video.videoWidth * scaleFactor, video.videoHeight * scaleFactor);
+                animateLoop = requestAnimationFrame(playBack);
+            }
+            animateLoop = requestAnimationFrame(playBack);
 
 
         })()
