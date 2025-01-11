@@ -20,7 +20,12 @@
                 </div>
                 <div class="col mb-2">
                     <label for="resolution">Stream Resolution:</label>
-                    <select id="resolution"></select>
+                    <select id="resolution">
+                        <option value="640x480" selected>640x480</option>
+                        <option value="1280x720">1280x720</option>
+                        <option value="1920x1080">1920x1080</option>
+                        <option value="3840x2160">3840x2160</option>
+                    </select>
                 </div>
                 <div class="col mb-2">
                     <label for="mode">Focus Mode:</label>
@@ -29,7 +34,7 @@
                 </div>
                 <div class="col mb-2">
                     <label for="focus">Focus Distance:</label>
-                    <input id="focus" type="range" min="1" max="5" step="1" value="1"></select>
+                    <input id="focus" type="range" min="0" max="5" step="1" value="0"></select>
                 </div>
             </div>
             <div class="text-center w-50 mx-auto">
@@ -73,7 +78,7 @@
 
             video.srcObject = stream;
             
-            setResolution(capabilities, track, resolution);
+            //setResolution(capabilities, track, resolution);
             setFocusMode(capabilities, track, mode);
             setFocusDistance(capabilities, track, focus);
             
@@ -83,8 +88,11 @@
                 endStream(stream);
                 navigator.mediaDevices.getUserMedia({
                     video: {
-                            deviceId: ev.target.value,
-                    }, audio: false
+                        deviceId: ev.target.value,
+                        width: 640,
+                        height: 480,
+                    }, 
+                    audio: false
                 })
                 .then(newStream=>{
                     video.srcObject = newStream;
@@ -92,7 +100,7 @@
                     track = newStream.getVideoTracks()[0];
                     capabilities = getStreamCapabilities(newStream);
                     
-                    setResolution(capabilities, track, resolution);
+                    //setResolution(capabilities, track, resolution);
                     setFocusMode(capabilities, track, mode);
                     setFocusDistance(capabilities, track, focus);
                     stream = newStream;
@@ -106,8 +114,8 @@
             })
 
             resolution.addEventListener("change", async (ev)=>{
-                const rWidth = parseInt(ev.target.value.split("X")[0]);
-                const rHeight = parseInt(ev.target.value.split("X")[1]);
+                const rWidth = parseInt(ev.target.value.split("x")[0]);
+                const rHeight = parseInt(ev.target.value.split("x")[1]);
 
                 await track.applyConstraints({
                         width: rWidth,
