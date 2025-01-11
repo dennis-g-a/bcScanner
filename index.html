@@ -102,6 +102,15 @@
             mode.addEventListener("changed", (ev)=>{
                 track.applyConstraints({focusMode: ev.target.value});
             })
+
+            resolution.addEventListener("changed", (ev)=>{
+                //need worked on
+            })
+
+            focus.addEventListener("changed", (ev)=>{
+                track.applyConstraints({focusDistance: ev.target.value});
+            })
+            
         })()
     </script>
   </body>
