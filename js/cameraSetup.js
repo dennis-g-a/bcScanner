@@ -6,7 +6,7 @@ const mode = document.querySelector("#mode");
 const focus = document.querySelector("#focus");
 const video = document.querySelector("video");
 
-await requestCamera();
+requestCamera();
 
 const devices = await getDevices();
 devices.map(device=>{
