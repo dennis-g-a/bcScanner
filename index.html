@@ -65,11 +65,11 @@
             const devices = await initCamera();
 
             let videoConstraints = {
-                video: {
-                    facingMode: {ideal: "environment"},
-                },
-                audio: false,
-            }
+                    video: {
+                        facingMode: {ideal: "environment"},
+                    },
+                    audio: false,
+                }
 
             let stream = await startStream(videoConstraints);
             let track = getActiveTrack(stream);
