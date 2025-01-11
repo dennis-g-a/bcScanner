@@ -110,14 +110,14 @@
 
                 video.srcObject = stream;
 
-                console.log(devices,stream,track,capabilities,trackSettings);
+                console.log(devices,stream,track,capabilities,trackSettings, track.getConstraints());
 
             });
 
             //resolution.addEventListener("change", (ev)=>{changeResolution(ev, track)});
 
             
-            console.log(devices,stream,track,capabilities,trackSettings);
+            console.log(devices,stream,track,capabilities,trackSettings, track.getConstraints());
 
         })()
     </script>
