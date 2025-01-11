@@ -90,9 +90,12 @@
             device.addEventListener("change", async (ev)=>{
                 stopStream(stream);
 
-                delete videoConstraints.facingMode;
-                videoConstraints.video.deviceId = ev.target.value;
-                console.log(videoConstraints);
+                videoConstraints = {
+                        video: {
+                            deviceId: ev.target.value
+                        },
+                        audio: false,
+                    }
 
                 stream = await startStream(videoConstraints);
                 track = getActiveTrack(stream);
