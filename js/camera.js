@@ -61,7 +61,7 @@ async function setResolution(track, element){
     }
 }
 
-function setFocusMode(capabilities,track, element){
+function setFocusMode(capabilities, track, element){
     element.innerHTML = '';
 
     if(!('focusMode' in capabilities)){
@@ -79,13 +79,16 @@ function setFocusMode(capabilities,track, element){
     }
 }
 
-function setFocusDistance(capabilities, element){
-    element.innerHTML = '';
+function setFocusDistance(capabilities, track, element){
+    element.value = 0;
     
     if(!('focusDistance' in capabilities)){
         console.log('focusDistance not available');
         element.disabled = true;
     }else{
-        element.value = 0;
+        element.value = track.getSettings().focusDistance;
+        element.min = capabilities.focusDistance.min;
+        element.max = capabilities.focusDistance.max;
+        element.step = capabilities.focusDistance.step;
     }
 }
