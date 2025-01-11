@@ -64,6 +64,7 @@ function setDeviceInput(devices, settings, element){
 
 function setResolutionInput(capabilities, settings, element){
     element.innerHTML = '';
+    console.log(settings.width, settings.height);
 
     const maxWidth = capabilities.width.max;
     const maxHeight = capabilities.height.max;
