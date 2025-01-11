@@ -56,7 +56,6 @@
     <script>
         (async()=>{
             const device = document.querySelector("#device");
-            const resolution = document.querySelector("#resolution");
             const mode = document.querySelector("#mode");
             const distance = document.querySelector("#distance");
             const video = document.querySelector("video");
@@ -107,6 +106,36 @@
 
                 video.srcObject = stream;
             });
+
+
+            mode.addEventListener("change", (ev)=>{
+                if(ev.target.value === 'manual'){
+                    if('focusDistance' in capabilities){
+                        distance.disabled = false;
+
+                        track.applyConstraints({
+                            focusMode: ev.target.value,
+                            focusDistance: distance.value,
+                        })
+                    }else{
+                        track.applyConstraints({
+                            focusMode: ev.target.value,
+                        })
+                    }
+                }else{
+                    track.applyConstraints({
+                        focusMode: ev.target.value,
+                    })
+                }
+            });
+
+            distance.addEventListener("change", (ev)=>{
+                track.applyConstraints({
+                    focusDistance: ev.target.value,
+                })
+
+                console.log(ev.target.value);
+            })
 
             
             console.log(devices,stream,track,capabilities,trackSettings);

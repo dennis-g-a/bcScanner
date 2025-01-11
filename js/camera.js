@@ -62,7 +62,6 @@ function setDeviceInput(devices, settings, element){
     }
 }
 
-
 function setFocusInputs(capabilities, settings, modeEl, distanceEl){
     modeEl.innerHTML = '';
     distanceEl.value = 0;
