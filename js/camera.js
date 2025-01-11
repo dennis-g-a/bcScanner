@@ -88,8 +88,5 @@ function setFocusDistance(capabilities, element){
         element.disabled = true;
     }else{
         element.value = 0;
-        element.min = capabilities.focusDistance.min;
-        element.max = capabilities.focusDistance.max;
-        element.step = capabilities.focusDistance.step;
     }
 }
