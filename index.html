@@ -66,7 +66,7 @@
 
             let videoConstraints = {
                 video: {
-                    facingMode: {exact: "environment"},
+                    facingMode: {ideal: "environment"},
                 },
                 audio: false,
             }
@@ -91,11 +91,11 @@
                 stopStream(stream);
 
                 videoConstraints = {
-                        video: {
-                            deviceId: ev.target.value
-                        },
-                        audio: false,
-                    }
+                    video: {
+                        deviceId: ev.target.value
+                    },
+                    audio: false,
+                }
 
                 stream = await startStream(videoConstraints);
                 track = getActiveTrack(stream);
