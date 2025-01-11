@@ -80,7 +80,7 @@
             
             setResolution(track, resolution);
             setFocusMode(capabilities, track, mode);
-            setFocusDistance(capabilities, track, focus);
+            setFocusDistance(capabilities, focus);
             
 
             camera.addEventListener("change", async (ev)=>{
@@ -102,7 +102,7 @@
                     
                     await setResolution(track, resolution);
                     setFocusMode(capabilities, track, mode);
-                    setFocusDistance(capabilities, track, focus);
+                    setFocusDistance(capabilities, focus);
                     stream = newStream;
                 })
             });
@@ -110,7 +110,7 @@
             mode.addEventListener("change", async (ev)=>{
                 const dist = document.querySelector("#focus");
                 if(ev.target.value === 'manual'){
-                    dist.value = track.getSettings().focusDistance;
+                    dist.value = 0;
                     dist.disabled = false;
                 }else{
                     dist.disabled = true;
@@ -118,7 +118,7 @@
 
                 await track.applyConstraints({
                     focusMode: ev.target.value,
-                    focusDistance: track.getSettings().focusDistance,
+                    focusDistance: 0,
                 });
             })
 

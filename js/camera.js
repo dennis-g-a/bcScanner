@@ -79,7 +79,7 @@ function setFocusMode(capabilities, track, element){
     }
 }
 
-function setFocusDistance(capabilities, track, element){
+function setFocusDistance(capabilities, element){
     const mode = document.querySelector("#mode");
     element.value = 0;
 
@@ -87,7 +87,7 @@ function setFocusDistance(capabilities, track, element){
         console.log('focusDistance not available');
         element.disabled = true;
     }else{
-        element.value = track.getSettings().focusDistance;
+        element.value = 0;
         element.min = capabilities.focusDistance.min;
         element.max = capabilities.focusDistance.max;
         element.step = capabilities.focusDistance.step;
