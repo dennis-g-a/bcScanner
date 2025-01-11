@@ -108,6 +108,11 @@
             });
                
             mode.addEventListener("change", async (ev)=>{
+                if(ev.target.value === 'manual'){
+                    const dist = document.querySelector("#focus");
+                    dist.value = track.getSettings().focusDistance;
+                }
+
                 await track.applyConstraints({
                     focusMode: ev.target.value,
                 });

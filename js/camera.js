@@ -80,8 +80,10 @@ function setFocusMode(capabilities, track, element){
 }
 
 function setFocusDistance(capabilities, track, element){
-    
-    if(!('focusDistance' in capabilities)){
+    const mode = document.querySelector("#mode");
+    element.value = 0;
+
+    if(!('focusDistance' in capabilities) || mode.value === 'continuous' || mode.value === 'single-shot'){
         console.log('focusDistance not available');
         element.disabled = true;
     }else{
