@@ -33,7 +33,8 @@
                 </div>
             </div>
             <div class="text-center w-50 mx-auto">
-                <video autoplay class="w-100"></video>
+                <video autoplay hidden class="w-100"></video>
+                <canvas class="w-100"></canvas>
             </div>
             <div class="text-center">
                 <h5>Scanned Data:</h5>
@@ -50,93 +51,36 @@
     
     
     <script src="js/camera.js"></script>
+    <script src="js/cameraSetup.js"></script>
     <script src="js/Scanner.js"></script>
 
     <script>
         (async()=>{
-            const camera = document.querySelector("#camera");
-            const resolution = document.querySelector("#resolution");
-            const mode = document.querySelector("#mode");
-            const focus = document.querySelector("#focus");
             const video = document.querySelector("video");
+            const canvas = document.querySelector("canvas");
+            const ctx = canvas.getContext("2d");
+            ctx.imageSmoothingEnabled = true
+            let canvasWidth, canvasHeight, animateLoop;
 
-            await requestCamera();
-
-            const devices = await getDevices();
-            devices.map(device=>{
-                camera.appendChild(new Option(device.label, device.deviceId));
+            video.addEventListener("play", (ev)=>{
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
             })
 
-            let stream = await getStream({
-                video: {
-                    width: 640,
-                    height: 480,
-                }
-            });
-            let track = stream.getVideoTracks()[0];
-            let capabilities = getStreamCapabilities(stream);
-            
-            video.srcObject = stream;
-            
-            setResolution(track, resolution);
-            setFocusMode(capabilities, track, mode);
-            setFocusDistance(capabilities, focus);
-            
-
-            camera.addEventListener("change", async (ev)=>{
+            async function playBack(){
                 
-                endStream(stream);
-                navigator.mediaDevices.getUserMedia({
-                    video: {
-                        deviceId: ev.target.value,
-                        width: 640,
-                        height: 480,
-                    }, 
-                    audio: false
-                })
-                .then(async newStream=>{
-                    video.srcObject = newStream;
-
-                    track = newStream.getVideoTracks()[0];
-                    capabilities = getStreamCapabilities(newStream);
-                    
-                    await setResolution(track, resolution);
-                    setFocusMode(capabilities, track, mode);
-                    setFocusDistance(capabilities, focus);
-                    stream = newStream;
-                })
-            });
-               
-            mode.addEventListener("change", async (ev)=>{
-                const dist = document.querySelector("#focus");
-                if(ev.target.value === 'manual'){
-                    dist.value = 0;
-                    dist.disabled = false;
-                }else{
-                    dist.disabled = true;
+                let scaleFactor = Math.min(canvas.width/video.videoWidth, canvas.height/video.videoHeight);
+                if(canvas.width !== video.videoWidth || canvas.height !== video.videoHeight){
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
                 }
 
-                await track.applyConstraints({
-                    focusMode: ev.target.value,
-                    focusDistance: 0,
-                });
-            })
+                ctx.drawImage(video, 0, 0, video.videoWidth * scaleFactor, video.videoHeight * scaleFactor);
+                animateLoop = requestAnimationFrame(playBack);
+            }
+            animateLoop = requestAnimationFrame(playBack);
 
-            resolution.addEventListener("change", async (ev)=>{
-                const rWidth = parseInt(ev.target.value.split("x")[0]);
-                const rHeight = parseInt(ev.target.value.split("x")[1]);
 
-                await track.applyConstraints({
-                        width: rWidth,
-                        height: rHeight,
-                    });
-            })
-
-            focus.addEventListener("change", async (ev)=>{
-               await track.applyConstraints({
-                    focusDistance: ev.target.value
-                })
-            })
         })()
     </script>
   </body>
