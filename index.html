@@ -100,7 +100,13 @@
             });
                
             mode.addEventListener("changed", (ev)=>{
-                track.applyConstraints({focusMode: ev.target.value});
+                track.applyConstraints({focusMode: ev.target.value})
+                .then(()=>{
+                    alert('focusMode changed');
+                })
+                .catch((err)=>{
+                    alert(err.message);
+                })
             })
 
             resolution.addEventListener("changed", (ev)=>{
