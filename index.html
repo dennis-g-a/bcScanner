@@ -75,7 +75,7 @@
             });
             let track = stream.getVideoTracks()[0];
             let capabilities = getStreamCapabilities(stream);
-
+            console.log(track.getSettings());
             video.srcObject = stream;
             
             setResolution(track, resolution);
