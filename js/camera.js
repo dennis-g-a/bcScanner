@@ -87,7 +87,7 @@ function setFocusDistance(capabilities, track, element){
     }else{
         element.min = capabilities.focusDistance.min;
         element.max = capabilities.focusDistance.max;
-        element.step = capabilities.focusDistance.step;
+        element.step = (capabilities.focusDistance.max / 5);
         element.value = track.getSettings().focusDistance;
     }
 }
