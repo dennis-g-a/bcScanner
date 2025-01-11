@@ -18,10 +18,10 @@
                     <label for="device">Device:</label>
                     <select id="device"></select>
                 </div>
-                <div class="col mb-2">
+                <!-- <div class="col mb-2">
                     <label for="resolution">Stream Resolution:</label>
                     <select id="resolution"></select>
-                </div>
+                </div> -->
                 <div class="col mb-2">
                     <label for="mode">Focus Mode:</label>
                     <select id="mode">
@@ -71,9 +71,9 @@
             let videoConstraints = {
                 video: {
                     deviceId: devices[0].deviceId,
-                    width: { min: 640, ideal: 640, max: 640 },
-                    height: { min: 480, ideal: 480, max: 480 },
-                    focusMode: 'manual',
+                    width: 640,
+                    height: 480,
+                    focusMode: {exact: 'manual'},
                 }
             }
 
@@ -83,7 +83,7 @@
             let trackSettings = track.getSettings();
             
             setDeviceInput(devices, trackSettings, device);
-            setResolutionInput(capabilities, trackSettings, resolution);
+            //setResolutionInput(capabilities, trackSettings, resolution);
             setFocusInputs(capabilities, trackSettings, mode, distance);
 
             video.srcObject = stream;
@@ -105,7 +105,7 @@
                 trackSettings = track.getSettings();
 
                 setDeviceInput(devices, trackSettings, device);
-                setResolutionInput(capabilities, trackSettings, resolution);
+                //setResolutionInput(capabilities, trackSettings, resolution);
                 setFocusInputs(capabilities, trackSettings, mode, distance);
 
                 video.srcObject = stream;
@@ -114,7 +114,7 @@
 
             });
 
-            resolution.addEventListener("change", (ev)=>{changeResolution(ev, track)});
+            //resolution.addEventListener("change", (ev)=>{changeResolution(ev, track)});
 
             
             console.log(devices,stream,track,capabilities,trackSettings);

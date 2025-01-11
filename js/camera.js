@@ -62,31 +62,33 @@ function setDeviceInput(devices, settings, element){
     }
 }
 
-function setResolutionInput(capabilities, settings, element){
-    element.innerHTML = '';
-    console.log(settings.width, settings.height);
+// function setResolutionInput(capabilities, settings, element){
+//     element.innerHTML = '';
+//     console.log(settings.width, settings.height);
 
-    const maxWidth = capabilities.width.max;
-    const maxHeight = capabilities.height.max;
-    const constWidth = settings.width;
-    const constHeight = settings.height;
+//     const maxWidth = capabilities.width.max;
+//     const maxHeight = capabilities.height.max;
+//     const constWidth = settings.width;
+//     const constHeight = settings.height;
 
-    const resolutions = ["3840x2160","1920x1080","1280x720","640x480"];
+//     const resolutions = ["3840x2160","1920x1080","1280x720","640x480"];
 
-    resolutions.map((res)=>{
-        const width = parseInt(res.split('x')[0]);
-        const height = parseInt(res.split('x')[1]);
 
-        if(width <= maxWidth && height <= maxHeight){
-            if(width === constWidth && height === constHeight){
-                element.appendChild(new Option(res, res, true, true));
-            }else{
-                element.appendChild(new Option(res, res, false, false));
-            }
-        }
-    })
+
+//     resolutions.map((res)=>{
+//         const width = parseInt(res.split('x')[0]);
+//         const height = parseInt(res.split('x')[1]);
+
+//         if(width <= maxWidth && height <= maxHeight){
+//             if(width === constWidth && height === constHeight){
+//                 element.appendChild(new Option(res, res, true, true));
+//             }else{
+//                 element.appendChild(new Option(res, res, false, false));
+//             }
+//         }
+//     })
     
-}
+// }
 
 function setFocusInputs(capabilities, settings, modeEl, distanceEl){
     modeEl.innerHTML = '';
@@ -110,12 +112,12 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
     }
 }
 
-function changeResolution(ev, track) {
-    const width = parseInt(ev.target.value.split('x')[0]);
-    const height = parseInt(ev.target.value.split('x')[1]);
+// function changeResolution(ev, track) {
+//     const width = parseInt(ev.target.value.split('x')[0]);
+//     const height = parseInt(ev.target.value.split('x')[1]);
 
-    track.applyConstraints({
-        width: width,
-        height: height,
-    })
-}
+//     track.applyConstraints({
+//         width: width,
+//         height: height,
+//     })
+// }
