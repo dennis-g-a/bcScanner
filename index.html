@@ -88,7 +88,7 @@
             video.srcObject = stream;
 
             function canvasDrawLoop(){
-                console.log('frame');
+                
                 let scalingFactor = Math.min(canvas.width / video.videoWidth, canvas.height / video.videoHeight);
 
                 if(canvas.width !== video.videoWidth || canvas.height !== video.videoHeight){
