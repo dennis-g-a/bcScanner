@@ -99,22 +99,25 @@
                 })
             });
                
-            mode.addEventListener("changed", (ev)=>{
-                track.applyConstraints({focusMode: ev.target.value})
-                .then(()=>{
-                    alert('focusMode changed');
-                })
-                .catch((err)=>{
-                    alert(err.message);
-                })
+            mode.addEventListener("changed", async (ev)=>{
+                await track.applyConstraints({
+                    advanced: [{
+                        focusMode: ev.target.value,
+                    }]
+                });
+                
             })
 
             resolution.addEventListener("changed", (ev)=>{
                 //need worked on
             })
 
-            focus.addEventListener("changed", (ev)=>{
-                track.applyConstraints({focusDistance: ev.target.value});
+            focus.addEventListener("changed", async (ev)=>{
+               await track.applyConstraints({
+                    advanced: [{
+                        focusDistance: ev.target.value,
+                    }]
+                });
             })
 
         })()
