@@ -97,9 +97,9 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
 
         capabilities.focusMode.map((mode)=>{
             if(mode === settings.focusMode){
-                element.appendChild(new Option(mode, mode, true, true));
+                modeEl.appendChild(new Option(mode, mode, true, true));
             }else{
-                element.appendChild(new Option(mode, mode, false, false));
+                modeEl.appendChild(new Option(mode, mode, false, false));
             }
         })
 
