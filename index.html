@@ -92,6 +92,7 @@
 
                 delete videoConstraints.facingMode;
                 videoConstraints.video.deviceId = ev.target.value;
+                console.log(videoConstraints);
 
                 stream = await startStream(videoConstraints);
                 track = getActiveTrack(stream);
