@@ -112,6 +112,8 @@
                 if(ev.target.value === 'manual'){
                     if('focusDistance' in capabilities){
                         distance.disabled = false;
+                        distance.min = trackSettings.focusDistance.min;
+                        distance.max = trackSettings.focusDistance.max;
 
                         track.applyConstraints({
                             focusMode: ev.target.value,
