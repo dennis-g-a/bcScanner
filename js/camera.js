@@ -69,7 +69,7 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
     distanceEl.disabled = true;
 
     if('focusMode' in capabilities){
-
+        modeEl.disabled = false;
         capabilities.focusMode.map((mode)=>{
             if(mode === settings.focusMode){
                 modeEl.appendChild(new Option(mode, mode, true, true));
@@ -79,9 +79,9 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
         })
 
         if('focusDistance' in capabilities){
-            modeEl.disabled = false;
-            distance.min = trackSettings.focusDistance.min;
-            distance.max = trackSettings.focusDistance.max;
+            distanceEl.disabled = false;
+            distanceEl.min = trackSettings.focusDistance.min;
+            distanceEl.max = trackSettings.focusDistance.max;
         }
     }
 }
