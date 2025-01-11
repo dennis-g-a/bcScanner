@@ -101,33 +101,25 @@
                
             mode.addEventListener("change", async (ev)=>{
                 await track.applyConstraints({
-                    advanced: [{
-                        focusMode: ev.target.value,
-                    }]
+                    focusMode: ev.target.value,
                 });
-                
             })
 
             resolution.addEventListener("change", async (ev)=>{
-                const width = parseInt(ev.target.value.split("X")[0]);
-                const height = parseInt(ev.target.value.split("X")[1]);
+                const rWidth = parseInt(ev.target.value.split("X")[0]);
+                const rHeight = parseInt(ev.target.value.split("X")[1]);
 
                 await track.applyConstraints({
-                    video: {
-                        width: width,
-                        height: height,
-                    },
-                })
+                        width: rWidth,
+                        height: rHeight,
+                    });
             })
 
             focus.addEventListener("change", async (ev)=>{
                await track.applyConstraints({
-                    advanced: [{
-                        focusDistance: ev.target.value,
-                    }]
-                });
+                    focusDistance: ev.target.value
+                })
             })
-
         })()
     </script>
   </body>
