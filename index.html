@@ -112,10 +112,13 @@
                     const dist = document.querySelector("#focus");
                     dist.value = track.getSettings().focusDistance;
                     dist.disabled = false;
+                }else{
+                    dist.disabled = true;
                 }
 
                 await track.applyConstraints({
                     focusMode: ev.target.value,
+                    focusDistance: track.getSettings().focusDistance,
                 });
             })
 
