@@ -50,12 +50,12 @@ async function startStream(constraints){
     return await navigator.mediaDevices.getUserMedia(constraints);
 }
 
-function setDeviceInput(devices, constraints, element){
+function setDeviceInput(devices, settings, element){
     element.innerHTML = '';
 
     if(devices.length > 0){
         devices.map((device)=>{
-            if(device.deviceId === constraints.deviceId){
+            if(device.deviceId === settings.deviceId){
                 element.appendChild(new Option(device.label, device.deviceId, true, true));
             }else{
                 element.appendChild(new Option(device.label, device.deviceId, false, false));
@@ -66,13 +66,13 @@ function setDeviceInput(devices, constraints, element){
     }
 }
 
-function setResolutionInput(capabilities, constraints, element){
+function setResolutionInput(capabilities, settings, element){
     element.innerHTML = '';
 
     const maxWidth = capabilities.width.max;
     const maxHeight = capabilities.height.max;
-    const constWidth = constraints.width;
-    const constHeight = constraints.height;
+    const constWidth = settings.width;
+    const constHeight = settings.height;
 
     const resolutions = ["3840x2160","1920x1080","1280x720","640x480"];
 
@@ -91,7 +91,7 @@ function setResolutionInput(capabilities, constraints, element){
     
 }
 
-function setFocusInputs(capabilities, constraints, modeEl, distanceEl){
+function setFocusInputs(capabilities, settings, modeEl, distanceEl){
     modeEl.innerHTML = '';
     distanceEl.value = 0;
     modeEl.disabled = true;
@@ -100,7 +100,7 @@ function setFocusInputs(capabilities, constraints, modeEl, distanceEl){
     if('focusMode' in capabilities){
 
         capabilities.focusMode.map((mode)=>{
-            if(mode === constraints.focusMode){
+            if(mode === settings.focusMode){
                 element.appendChild(new Option(mode, mode, true, true));
             }else{
                 element.appendChild(new Option(mode, mode, false, false));

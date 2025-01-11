@@ -79,11 +79,11 @@
             let stream = await startStream(videoConstraints);
             let track = getActiveTrack(stream);
             let capabilities = track.getCapabilities();
-            let trackConstraints = track.getConstraints();
+            let trackSettings = track.getSettings();
             
-            setDeviceInput(devices, trackConstraints, device);
-            setResolutionInput(capabilities, trackConstraints, resolution);
-            setFocusInputs(capabilities, trackConstraints, mode, distance);
+            setDeviceInput(devices, trackSettings, device);
+            setResolutionInput(capabilities, trackSettings, resolution);
+            setFocusInputs(capabilities, trackSettings, mode, distance);
 
             video.srcObject = stream;
 
