@@ -42,19 +42,20 @@ function getStreamCapabilities(stream){
 }
 
 
-function setResolution(capabilities, track, element){
+async function setResolution(track, element){
     element.innerHTML = '';
-    
-    for (const i of [1.0, 0.75, 0.50]){
-        const streamWidth = capabilities.width.max;
-        const aspectRatio =  track.getSettings().aspectRatio;
+    const list = ["3840x2160","1920x1080","1280x720","640x480"]
+    const cWdith = track.getConstraints().width;
+    const cHeight = track.getConstraints().height;
 
-        const label = `${Math.floor(streamWidth * i)}X${Math.floor((streamWidth * i) / aspectRatio)}`;
-        
-        if((streamWidth * i) === track.getSettings().width){
-            element.appendChild(new Option(label,label,false,true));
+    for (const i of list){
+        const rWidth = parseInt(i.split("x")[0]);
+        const rHeight = parseInt(i.split("x")[1]);
+
+        if(rWidth === cWdith && rHeight === cHeight){
+            element.appendChild(new Option(i,i,false,true));
         }else{
-            element.appendChild(new Option(label,label,false,false));
+            element.appendChild(new Option(i,i,false,false));
         }
         
     }
@@ -78,16 +79,13 @@ function setFocusMode(capabilities,track, element){
     }
 }
 
-function setFocusDistance(capabilities, track, element){
+function setFocusDistance(capabilities, element){
     element.innerHTML = '';
     
     if(!('focusDistance' in capabilities)){
         console.log('focusDistance not available');
         element.disabled = true;
     }else{
-        // element.min = capabilities.focusDistance.min;
-        // element.max = capabilities.focusDistance.max;
-        // element.step = ((capabilities.focusDistance.max - 1) / 5);
-        // element.value = track.getSettings().focusDistance;
+        element.value = 0;
     }
 }
