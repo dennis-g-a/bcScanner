@@ -111,6 +111,7 @@
                 if(ev.target.value === 'manual'){
                     const dist = document.querySelector("#focus");
                     dist.value = track.getSettings().focusDistance;
+                    dist.disabled = false;
                 }
 
                 await track.applyConstraints({
