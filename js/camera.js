@@ -23,10 +23,6 @@ function getActiveTrack(stream){
     return tracks[0];
 }
 
-function helloWorldRandom(){
-    return 'hi';
-}
-
 async function initCamera(){
     let camera;
     try {
