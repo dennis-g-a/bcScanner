@@ -108,3 +108,13 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
         }
     }
 }
+
+function changeResolution(ev, track) {
+    const width = parseInt(ev.target.value.split('x')[0]);
+    const height = parseInt(ev.target.value.split('x')[1]);
+
+    track.applyConstraints({
+        width: width,
+        height: height,
+    })
+}
