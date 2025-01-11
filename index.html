@@ -75,7 +75,10 @@
             });
             let track = stream.getVideoTracks()[0];
             let capabilities = getStreamCapabilities(stream);
-            console.log(track.getSettings());
+            alert(capabilities.focusDistance.min)
+            alert(capabilities.focusDistance.max)
+            alert(capabilities.focusDistance.step)
+            
             video.srcObject = stream;
             
             setResolution(track, resolution);
@@ -133,6 +136,7 @@
             })
 
             focus.addEventListener("change", async (ev)=>{
+            alert(track.getSettings().focusDistance)
                await track.applyConstraints({
                     focusDistance: ev.target.value
                 })
