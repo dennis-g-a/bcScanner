@@ -99,7 +99,7 @@
                 })
             });
                
-            mode.addEventListener("changed", async (ev)=>{
+            mode.addEventListener("change", async (ev)=>{
                 await track.applyConstraints({
                     advanced: [{
                         focusMode: ev.target.value,
@@ -108,11 +108,19 @@
                 
             })
 
-            resolution.addEventListener("changed", (ev)=>{
-                //need worked on
+            resolution.addEventListener("change", async (ev)=>{
+                const width = parseInt(ev.target.value.split("X")[0]);
+                const height = parseInt(ev.target.value.split("X")[1]);
+
+                await track.applyConstraints({
+                    video: {
+                        width: width,
+                        height: height,
+                    },
+                })
             })
 
-            focus.addEventListener("changed", async (ev)=>{
+            focus.addEventListener("change", async (ev)=>{
                await track.applyConstraints({
                     advanced: [{
                         focusDistance: ev.target.value,
