@@ -80,7 +80,6 @@ function setFocusMode(capabilities, track, element){
 }
 
 function setFocusDistance(capabilities, track, element){
-    element.value = 0;
     
     if(!('focusDistance' in capabilities)){
         console.log('focusDistance not available');
