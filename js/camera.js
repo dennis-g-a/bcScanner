@@ -80,8 +80,8 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
 
         if('focusDistance' in capabilities){
             distanceEl.disabled = false;
-            distanceEl.min = trackSettings.focusDistance.min;
-            distanceEl.max = trackSettings.focusDistance.max;
+            distanceEl.min = capabilities.focusDistance.min;
+            distanceEl.max = capabilities.focusDistance.max;
         }
     }
 }
