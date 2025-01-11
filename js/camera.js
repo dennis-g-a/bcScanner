@@ -20,7 +20,7 @@ function requestCamera(){
 
 async function getDevices(){
     const devices = await navigator.mediaDevices.enumerateDevices();
-
+    console.log(devices);
     let deviceList = []
     devices.map(device=>{
         if(device.kind === "videoinput"){
