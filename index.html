@@ -108,8 +108,8 @@
             });
                
             mode.addEventListener("change", async (ev)=>{
+                const dist = document.querySelector("#focus");
                 if(ev.target.value === 'manual'){
-                    const dist = document.querySelector("#focus");
                     dist.value = track.getSettings().focusDistance;
                     dist.disabled = false;
                 }else{
