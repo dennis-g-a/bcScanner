@@ -1,5 +1,4 @@
-
-function endStream(stream){
+function stopStream(stream){
     if(stream){
         const tracks = stream.getTracks();
         tracks.forEach((track)=>{
@@ -8,19 +7,7 @@ function endStream(stream){
     }
 }
 
-function requestCamera(){
-    navigator.mediaDevices.getUserMedia({video: true, audio: false})
-    .then(stream=>{
-        endStream(stream);
-    })
-    .catch(err=>{
-        throw new Error(err.message);
-    })
-}
-
-async function getDevices(){
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    console.log(devices);
+function videoDevices(devices){
     let deviceList = []
     devices.map(device=>{
         if(device.kind === "videoinput"){
@@ -31,62 +18,97 @@ async function getDevices(){
     return deviceList;
 }
 
-async function getStream(constraint = null){
-    const constraints = constraint ? constraint : {video: true, audio: false}
+function getActiveTrack(stream){
+    const tracks = stream.getVideoTracks();
+    return tracks[0];
+}
+
+function helloWorldRandom(){
+    return 'hi';
+}
+
+async function initCamera(){
+    let camera;
+    try {
+        camera = await navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: false
+        });
+    } catch (error) {
+        throw new Error(error.message);
+    }
+
+    const devices = await navigator.mediaDevices.enumerateDevices()
+    .finally(()=>{
+        stopStream(camera);
+    });
+        
+    return videoDevices(devices);
+}
+
+async function startStream(constraints){
     return await navigator.mediaDevices.getUserMedia(constraints);
 }
 
-function getStreamCapabilities(stream){
-    const tracks = stream.getTracks()
-    return tracks[0].getCapabilities();
-}
-
-
-async function setResolution(track, element){
-    element.innerHTML = '';
-    const list = ["3840x2160","1920x1080","1280x720","640x480"]
-    const cWdith = track.getConstraints().width;
-    const cHeight = track.getConstraints().height;
-
-    for (const i of list){
-        const rWidth = parseInt(i.split("x")[0]);
-        const rHeight = parseInt(i.split("x")[1]);
-
-        if(rWidth === cWdith && rHeight === cHeight){
-            element.appendChild(new Option(i,i,false,true));
-        }else{
-            element.appendChild(new Option(i,i,false,false));
-        }
-        
-    }
-}
-
-function setFocusMode(capabilities, track, element){
+function setDeviceInput(devices, constraints, element){
     element.innerHTML = '';
 
-    if(!('focusMode' in capabilities)){
-        console.log('focusMode not available');
-        element.appendChild(new Option("None"))
-        element.disabled = true;
-    }else{
-        capabilities.focusMode.map(i=>{
-            if(i === track.getSettings().focusMode){
-                element.appendChild(new Option(i,i,false,true));
+    if(devices.length > 0){
+        devices.map((device)=>{
+            if(device.deviceId === constraints.deviceId){
+                element.appendChild(new Option(device.label, device.deviceId, true, true));
             }else{
-                element.appendChild(new Option(i,i,false,false));
+                element.appendChild(new Option(device.label, device.deviceId, false, false));
             }
         })
+    }else{
+        element.appendChild(new Option('None', 'None'));
     }
 }
 
-function setFocusDistance(capabilities, element){
-    const mode = document.querySelector("#mode");
-    element.value = 0;
+function setResolutionInput(capabilities, constraints, element){
+    element.innerHTML = '';
 
-    if(!('focusDistance' in capabilities) || mode.value === 'continuous' || mode.value === 'single-shot'){
-        console.log('focusDistance not available');
-        element.disabled = true;
-    }else{
-        element.value = 0;
+    const maxWidth = capabilities.width.max;
+    const maxHeight = capabilities.height.max;
+    const constWidth = constraints.width;
+    const constHeight = constraints.height;
+
+    const resolutions = ["3840x2160","1920x1080","1280x720","640x480"];
+
+    resolutions.map((res)=>{
+        const width = parseInt(res.split('x')[0]);
+        const height = parseInt(res.split('x')[1]);
+
+        if(width <= maxWidth && height <= maxHeight){
+            if(width === constWidth && height === constHeight){
+                element.appendChild(new Option(res, res, true, true));
+            }else{
+                element.appendChild(new Option(res, res, false, false));
+            }
+        }
+    })
+    
+}
+
+function setFocusInputs(capabilities, constraints, modeEl, distanceEl){
+    modeEl.innerHTML = '';
+    distanceEl.value = 0;
+    modeEl.disabled = true;
+    distanceEl.disabled = true;
+
+    if('focusMode' in capabilities){
+
+        capabilities.focusMode.map((mode)=>{
+            if(mode === constraints.focusMode){
+                element.appendChild(new Option(mode, mode, true, true));
+            }else{
+                element.appendChild(new Option(mode, mode, false, false));
+            }
+        })
+
+        if('focusDistance' in capabilities){
+            modeEl.disabled = false;
+        }
     }
 }

@@ -15,8 +15,8 @@
         <div class="container">
             <div class="row row-cols-2 mx-auto text-center">
                 <div class="col mb-2">
-                    <label for="camera">Camera:</label>
-                    <select id="camera"></select>
+                    <label for="device">Device:</label>
+                    <select id="device"></select>
                 </div>
                 <div class="col mb-2">
                     <label for="resolution">Stream Resolution:</label>
@@ -28,8 +28,8 @@
                     </select>
                 </div>
                 <div class="col mb-2">
-                    <label for="focus">Focus Distance:</label>
-                    <input id="focus" type="range" min="0" max="3.5" step="0.5"></select>
+                    <label for="distance">Focus Distance:</label>
+                    <input id="distance" type="range" min="0" max="3.5" step="0.5"></select>
                 </div>
             </div>
             <div class="text-center w-50 mx-auto">
@@ -51,34 +51,58 @@
     
     
     <script src="js/camera.js"></script>
-    <script src="js/cameraSetup.js"></script>
+    <!-- <script src="js/cameraSetup.js"></script> -->
     <script src="js/scanner.js"></script>
 
     <script>
         (async()=>{
+            const device = document.querySelector("#device");
+            const resolution = document.querySelector("#resolution");
+            const mode = document.querySelector("#mode");
+            const distance = document.querySelector("#distance");
             const video = document.querySelector("video");
             const canvas = document.querySelector("canvas");
             const ctx = canvas.getContext("2d");
-            let canvasWidth, canvasHeight, animateLoop;
+            let canvasLoop;
 
-            video.addEventListener("play", (ev)=>{
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-            })
+            const devices = await initCamera();
 
-            async function playBack(){
-                
-                let scaleFactor = Math.min(canvas.width/video.videoWidth, canvas.height/video.videoHeight);
+            const videoConstraints = {
+                video: {
+                    deviceId: devices[0].deviceId,
+                    width: 640,
+                    height: 480,
+                    focusMode: 'manual',
+                }
+            }
+
+            let stream = await startStream(videoConstraints);
+            let track = getActiveTrack(stream);
+            let capabilities = track.getCapabilities();
+            let trackConstraints = track.getConstraints();
+            
+            setDeviceInput(devices, trackConstraints, device);
+            setResolutionInput(capabilities, trackConstraints, resolution);
+            setFocusInputs(capabilities, trackConstraints, mode, distance);
+
+            video.srcObject = stream;
+
+            function canvasDrawLoop(){
+
+                let scalingFactor = Math.min(canvas.width / video.videoWidth, canvas.height / video.videoHeight);
+
                 if(canvas.width !== video.videoWidth || canvas.height !== video.videoHeight){
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                 }
 
-                ctx.drawImage(video, 0, 0, video.videoWidth * scaleFactor, video.videoHeight * scaleFactor);
-                animateLoop = requestAnimationFrame(playBack);
+                ctx.drawImage(video, 0, 0, video.videoWidth * scalingFactor, video.videoHeight * scalingFactor);
+                canvasLoop = requestAnimationFrame(canvasDrawLoop);
             }
-            animateLoop = requestAnimationFrame(playBack);
 
+            canvasLoop = requestAnimationFrame(canvasDrawLoop);
+            
+            console.log(devices,stream,track,capabilities,trackConstraints);
 
         })()
     </script>
