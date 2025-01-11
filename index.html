@@ -106,6 +106,8 @@
 
                 video.srcObject = stream;
 
+                console.log(devices,stream,track,capabilities,trackSettings);
+
             });
 
             resolution.addEventListener("change", (ev)=>{changeResolution(ev, track)});
