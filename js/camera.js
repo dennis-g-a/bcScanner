@@ -82,6 +82,7 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
             distanceEl.disabled = false;
             distanceEl.min = capabilities.focusDistance.min;
             distanceEl.max = capabilities.focusDistance.max;
+            distanceEl.step = capabilities.focusDistance.step;
         }
     }
 }
