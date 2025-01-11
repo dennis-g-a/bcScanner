@@ -71,8 +71,8 @@
             let videoConstraints = {
                 video: {
                     deviceId: devices[0].deviceId,
-                    width: 640,
-                    height: 480,
+                    width: { min: 640, ideal: 640, max: 640 },
+                    height: { min: 480, ideal: 480, max: 480 },
                     focusMode: 'manual',
                 }
             }
