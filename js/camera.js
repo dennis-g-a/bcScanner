@@ -50,12 +50,17 @@ function setResolution(capabilities, track, element){
         const aspectRatio =  track.getSettings().aspectRatio;
 
         const label = `${Math.floor(streamWidth * i)}X${Math.floor((streamWidth * i) / aspectRatio)}`;
-
-        element.appendChild(new Option(label,label));
+        
+        if((streamWidth * i) === track.getSettings().width){
+            element.appendChild(new Option(label,label,false,true));
+        }else{
+            element.appendChild(new Option(label,label,false,false));
+        }
+        
     }
 }
 
-function setFocusMode(capabilities, element){
+function setFocusMode(capabilities,track, element){
     element.innerHTML = '';
 
     if(!('focusMode' in capabilities)){
@@ -64,7 +69,11 @@ function setFocusMode(capabilities, element){
         element.disabled = true;
     }else{
         capabilities.focusMode.map(i=>{
-            element.appendChild(new Option(i,i));
+            if(i === track.getSettings().focusMode){
+                element.appendChild(new Option(i,i,false,true));
+            }else{
+                element.appendChild(new Option(i,i,false,false));
+            }
         })
     }
 }

@@ -74,7 +74,7 @@
             video.srcObject = stream;
             
             setResolution(capabilities, track, resolution);
-            setFocusMode(capabilities, mode);
+            setFocusMode(capabilities, track, mode);
             setFocusDistance(capabilities, track, focus);
             
 
@@ -93,7 +93,7 @@
                     capabilities = getStreamCapabilities(newStream);
                     
                     setResolution(capabilities, track, resolution);
-                    setFocusMode(capabilities, mode);
+                    setFocusMode(capabilities, track, mode);
                     setFocusDistance(capabilities, track, focus);
                     stream = newStream;
                 })
@@ -110,7 +110,7 @@
             focus.addEventListener("changed", (ev)=>{
                 track.applyConstraints({focusDistance: ev.target.value});
             })
-            
+
         })()
     </script>
   </body>
