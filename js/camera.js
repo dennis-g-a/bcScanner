@@ -68,8 +68,6 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
     modeEl.disabled = true;
     distanceEl.disabled = true;
 
-    modeEl.appendChild(new Option('No Modes', 'No Modes', false, false));
-
     if('focusMode' in capabilities){
         modeEl.disabled = false;
         capabilities.focusMode.map((mode)=>{
@@ -80,12 +78,14 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
             }
         })
 
-        if('focusDistance' in capabilities){
+        if('focusDistance' in capabilities && capabilities.focusMode.length > 1){
             distanceEl.disabled = false;
             distanceEl.min = capabilities.focusDistance.min;
             distanceEl.max = capabilities.focusDistance.max;
             distanceEl.step = capabilities.focusDistance.step;
         }
+    }else{
+        modeEl.appendChild(new Option('No Modes', 'No Modes', false, false));
     }
 }
 
