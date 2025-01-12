@@ -69,7 +69,7 @@
             const getFormats = await BarcodeDetector.getSupportedFormats();
             const detector = new BarcodeDetector({formats: getFormats });
 
-            let animateLoop;
+            let animateLoop, torchStatus;
 
             const devices = await initCamera();
 
@@ -158,11 +158,14 @@
             });
 
             torch.addEventListener("click", (ev)=>{
-                console.log(capabilities, trackSettings)
                 if('torch' in capabilities){
-                    console.log(!trackSettings.torch)
+                    if(torchStatus == null){
+                        torchStatus = !trackSettings.torch;
+                    }else{
+                        torchStatus = !torchStatus;
+                    }
                     track.applyConstraints({
-                        torch: trackSettings.torch ? false: true,
+                        torch: torchStatus,
                     })
                 }
             })
