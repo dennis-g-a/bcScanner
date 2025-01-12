@@ -161,7 +161,7 @@
                 if('torch' in capabilities){
                     console.log(!trackSettings.torch)
                     track.applyConstraints({
-                        torch: !trackSettings.torch,
+                        torch: trackSettings.torch ? false: true,
                     })
                 }
             })
