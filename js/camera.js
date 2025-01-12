@@ -68,6 +68,8 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
     modeEl.disabled = true;
     distanceEl.disabled = true;
 
+    modeEl.appendChild(new Option('No Modes', 'No Modes', false, false));
+
     if('focusMode' in capabilities){
         modeEl.disabled = false;
         capabilities.focusMode.map((mode)=>{
