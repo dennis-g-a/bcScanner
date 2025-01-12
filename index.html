@@ -20,12 +20,14 @@
                 </div>
                 <div class="col mb-2">
                     <label for="mode">Focus Mode:</label>
-                    <select id="mode">
-                    </select>
+                    <select id="mode"></select>
                 </div>
                 <div class="col mb-2">
                     <label for="distance">Focus Distance:</label>
-                    <input id="distance" type="range"></select>
+                    <input id="distance" type="range" class="form-range" />
+                </div>
+                <div class="col mb-2">
+                    <input id="torch" type="button" class="btn btn-primary" value="Torch" />
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -60,6 +62,7 @@
             const device = document.querySelector("#device");
             const mode = document.querySelector("#mode");
             const distance = document.querySelector("#distance");
+            const torch = document.querySelector("#torch");
             const video = document.querySelector("video");
             const output = document.querySelector("#output");
 
@@ -151,6 +154,14 @@
 
                 console.log(ev.target.value);
             });
+
+            torch.addEventListener("click", (ev)=>{
+                if('torch' in capabilities){
+                    track.applyConstraints({
+                        torch: !trackSettings.torch,
+                    })
+                }
+            })
 
         })()
     </script>
