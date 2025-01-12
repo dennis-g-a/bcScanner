@@ -157,6 +157,7 @@
 
             torch.addEventListener("click", (ev)=>{
                 if('torch' in capabilities){
+                    console.log(!trackSettings.torch);
                     track.applyConstraints({
                         torch: !trackSettings.torch,
                     })
