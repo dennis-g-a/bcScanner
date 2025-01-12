@@ -52,12 +52,12 @@ function setDeviceInput(devices, settings, element){
     if(devices.length > 0){
         devices.map((device)=>{
             if(device.deviceId === settings.deviceId){
-                if('camera2' in device.label){
+                if(device.label.includes('camera2')){
                     element.appendChild(new Option(device.label.replace('camera2', ''), device.deviceId, true, true));
                 }
                 element.appendChild(new Option(device.label, device.deviceId, true, true));
             }else{
-                if('camera2' in device.label){
+                if(device.label.includes('camera2')){
                     element.appendChild(new Option(device.label.replace('camera2', ''), device.deviceId, false, false));
                 }
                 element.appendChild(new Option(device.label, device.deviceId, false, false));
