@@ -54,13 +54,16 @@ function setDeviceInput(devices, settings, element){
             if(device.deviceId === settings.deviceId){
                 if(device.label.includes('camera2')){
                     element.appendChild(new Option(device.label.replace('camera2', ''), device.deviceId, true, true));
-                }
-                element.appendChild(new Option(device.label, device.deviceId, true, true));
+                }else{
+                    element.appendChild(new Option(device.label, device.deviceId, true, true));
+                }   
             }else{
                 if(device.label.includes('camera2')){
                     element.appendChild(new Option(device.label.replace('camera2', ''), device.deviceId, false, false));
+                }else{
+                    element.appendChild(new Option(device.label, device.deviceId, false, false));
                 }
-                element.appendChild(new Option(device.label, device.deviceId, false, false));
+                
             }
         })
     }else{
