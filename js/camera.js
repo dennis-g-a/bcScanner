@@ -86,3 +86,12 @@ function setFocusInputs(capabilities, settings, modeEl, distanceEl){
         }
     }
 }
+
+function setTorchInput(capabilities, element){
+    element.disabled = true;
+    element.value = 'Torch disabled';
+    if('torch' in capabilities){
+        element.disabled = false;
+        element.value = 'Torch Off';
+    }
+}

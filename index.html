@@ -87,6 +87,7 @@
             
             setDeviceInput(devices, trackSettings, device);
             setFocusInputs(capabilities, trackSettings, mode, distance);
+            setTorchInput(capabilities, torch);
 
             video.srcObject = stream;
 
@@ -118,6 +119,7 @@
 
                 setDeviceInput(devices, trackSettings, device);
                 setFocusInputs(capabilities, trackSettings, mode, distance);
+                setTorchInput(capabilities, torch);
 
                 video.srcObject = stream;
 
@@ -167,6 +169,8 @@
                     track.applyConstraints({
                         torch: torchStatus,
                     })
+
+                    torch.value = torchStatus ? 'Torch On' : 'Torch Off';
                 }
             })
 
