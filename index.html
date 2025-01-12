@@ -121,7 +121,7 @@
 
                 video.srcObject = stream;
 
-                console.log(capabilities, trackSettings)
+                
             });
 
 
@@ -158,6 +158,7 @@
             });
 
             torch.addEventListener("click", (ev)=>{
+                console.log(capabilities, trackSettings)
                 if('torch' in capabilities){
                     console.log(!trackSettings.torch)
                     track.applyConstraints({
